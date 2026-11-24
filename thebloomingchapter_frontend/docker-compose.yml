@@ -1,0 +1,20 @@
+# The Blooming Chapter — FRONTEND (Next.js shop + admin CRM)
+#   cp .env.example .env && docker compose up -d --build
+#   Open http://localhost:3000   (CRM: http://localhost:3000/crm/login)
+#
+# The API is a separate project (thebloomingchapter_backend). Start it first and
+# point NEXT_PUBLIC_API_URL at it. NEXT_PUBLIC_* values are baked in at build
+# time, so rebuild (--build) after changing them.
+
+name: bloomingchapter-frontend
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api}
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID:-}
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
